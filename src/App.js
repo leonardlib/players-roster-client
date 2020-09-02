@@ -1,26 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+} from 'react-router-dom';
+import PlayersList from "./pages/players/list";
+import UserLogin from "./pages/users/login";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const logout = () => {
+        localStorage.removeItem('auth_token');
+    };
+
+    return (
+        <Router>
+            <div className="container">
+                <nav>
+                    <ul>
+                        <li>
+                            <Link to="/login">Login</Link>
+                        </li>
+                        <li>
+                            <Link to="/players">Players</Link>
+                        </li>
+                        <li>
+                            <Link to="/" onClick={() => logout()}>Logout</Link>
+                        </li>
+                    </ul>
+                </nav>
+                <Switch>
+                    <Route path="/login">
+                        <UserLogin />
+                    </Route>
+                    <Route path="/players">
+                        <PlayersList />
+                    </Route>
+                </Switch>
+            </div>
+        </Router>
+    );
 }
 
 export default App;
